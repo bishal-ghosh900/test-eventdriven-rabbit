@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: message
+
+  cloud:
+    function:
+      definition: anime|genre
+    stream:
+      bindings:
+        animegenre-in-0:
+          destination: send-notification
+          group: ${spring.application.name}
+        animegenre-out-0:
+          destination: revert-notification
+  rabbitmq:
+    port: 5672
+    host: localhost
+    username: guest
+    password: guest
+    connection-timeout: 10s
+
+
+
+server:
+  port: 9000

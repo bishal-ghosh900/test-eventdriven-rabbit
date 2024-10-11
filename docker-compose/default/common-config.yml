@@ -1,0 +1,19 @@
+services:
+  common_service:
+    environment:
+      JAVA_TOOL_OPTIONS: "-javaagent:/app/libs/opentelemetry-javaagent-1.33.5.jar"
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4317
+      OTEL_METRICS_EXPORTER: none
+
+  service-common-config:
+    extends:
+      service: common_service
+    environment:
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8070
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8090/eureka/
+
+  micro-service_common:
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+    extends:
+      service: service-common-config
